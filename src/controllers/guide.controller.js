@@ -44,7 +44,7 @@ exports.getGuideById = async (req, res) => {
 
 exports.createGuide = async (req, res) => {
   try {
-    const { name, email, password, experience, language } = req.body;
+    const { name, email, password, experience, language, tel, province, image} = req.body;
 
     const existingUser = await prisma.user.findUnique({
       where: { email }
@@ -64,6 +64,9 @@ exports.createGuide = async (req, res) => {
         password,
         experience,
         language,
+        tel,
+        province,
+        image,
         role: "GUIDE"
       }
     });

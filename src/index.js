@@ -18,7 +18,7 @@ app.use("/guides", guideRoute);
 app.use("/tourists", touristRoute);
 app.use("/provinces", provinceRoute);
 app.use("/trips", tripRoute);
-app.use('./bookings', bookingRoute)
+app.use('/bookings', bookingRoute)
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Guide Booking API');

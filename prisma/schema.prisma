@@ -20,6 +20,8 @@ model User {
   tel        String?
   password   String
   role       String
+  image      String?
+  province   String?
   experience String?
   language   String?
   bookingsAsTourist Booking[] @relation("TouristBookings")

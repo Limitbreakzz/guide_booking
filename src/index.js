@@ -3,7 +3,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
+const authRoutes = require('./routes/auth.routes')
 const guideRoute = require('./routes/guide.route')
 const touristRoute = require('./routes/tourist.route')
 const provinceRoute = require('./routes/province.route')
@@ -14,6 +15,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/auth", authRoutes);
 app.use("/guides", guideRoute);
 app.use("/tourists", touristRoute);
 app.use("/provinces", provinceRoute);

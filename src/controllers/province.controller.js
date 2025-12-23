@@ -80,6 +80,7 @@ exports.updateProvince = async (req, res) => {
 exports.deleteProvince = async (req, res) => {
   try {
     await prisma.province.delete({ where: { id: Number(req.params.id) } });
+    
     res.json({
       status: 'success',
       message: 'Province deleted successfully'

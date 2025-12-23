@@ -1,15 +1,18 @@
 const express = require('express');
 const app = express.Router();
+const auth = require("../middlewares/auth");
+const { requireRole } = require("../middlewares/role");
 const controller = require('../controllers/booking.controller');
 
-app.get('/', controller.getBookings);
+app.get('/', auth, controller.getBookings);
 
-app.get('/:id', controller.getBookingById);
+app.get('/:id',auth, controller.getBookingById);
 
-app.post('/', controller.createBooking);
+app.post('/',auth, controller.createBooking);
 
-app.put('/:id', controller.updateBooking);
+app.put('/:id',auth, controller.updateBooking);
 
-app.delete('/:id', controller.deleteBooking);
+app.delete('/:id',auth, controller.deleteBooking);
+
 
 module.exports = app;

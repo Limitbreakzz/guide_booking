@@ -13,44 +13,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  TOURIST
+  GUIDE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+}
+
 model User {
-  id         Int       @id @default(autoincrement())
-  name       String
-  email      String    @unique
-  tel        String?
-  password   String
-  role       String
-  image      String?
-  province   String?
-  experience String?
-  language   String?
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  role     Role
+
   bookingsAsTourist Booking[] @relation("TouristBookings")
   bookingsAsGuide   Booking[] @relation("GuideBookings")
+  tripsAsGuide      Trip[]    @relation("GuideTrips") 
 }
 
 model Province {
-  id    Int    @id @default(autoincrement())
-  name  String
-  trips Trip[]
-  bookings Booking[]
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  trips    Trip[]    @relation("ProvinceTrips")
+  bookings Booking[] @relation("ProvinceBookings")
 }
 
 model Trip {
   id         Int      @id @default(autoincrement())
   name       String
-  provinceId Int
   price      Float?
-  province Province @relation(fields: [provinceId], references: [id])
+  provinceId Int
+  guideId    Int
+
+  province Province @relation("ProvinceTrips", fields: [provinceId], references: [id])
+  guide    User     @relation("GuideTrips", fields: [guideId], references: [id])
+  bookings Booking[]
 }
 
 model Booking {
-  id         Int      @id @default(autoincrement())
+  id         Int            @id @default(autoincrement())
   datetime   DateTime
-  status     String
+  status     BookingStatus
   touristId  Int
   guideId    Int
   provinceId Int
+  tripId     Int
+
   tourist  User     @relation("TouristBookings", fields: [touristId], references: [id])
   guide    User     @relation("GuideBookings", fields: [guideId], references: [id])
-  province Province @relation(fields: [provinceId], references: [id])
+  province Province @relation("ProvinceBookings", fields: [provinceId], references: [id])
+  trip     Trip     @relation(fields: [tripId], references: [id])
 }

@@ -46,7 +46,12 @@ exports.getTripById = async (req, res) => {
 exports.createTrip = async (req, res) => {
   try {
     const trip = await prisma.trip.create({
-      data: req.body
+      data: {
+        name: req.body.name,
+        provinceId: Number(req.body.provinceId),
+        guideId: Number(req.body.guideId),
+        price: Number(req.body.price)
+      }
     });
 
     res.json({
